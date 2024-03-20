@@ -1,0 +1,64 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_LINE_LENGTH 1024
+
+int main() {
+    char file1_name[100];
+    char file2_name[100];
+
+   
+    printf("Enter the name of the first file: ");
+    scanf("%s", file1_name);
+    printf("Enter the name of the second file: ");
+    scanf("%s", file2_name);
+
+    
+    FILE *file1 = fopen(file1_name, "r");
+    if (file1 == NULL) {
+        printf("Error opening first file.\n");
+        return 1;
+    }
+
+    
+    FILE *file2 = fopen(file2_name, "r");
+    if (file2 == NULL) {
+        printf("Error opening second file.\n");
+        fclose(file1);
+        return 1;
+    }
+
+    char line1[MAX_LINE_LENGTH];
+    char line2[MAX_LINE_LENGTH];
+    int line_number = 0;
+    int differences_found = 0;
+
+    
+    while (fgets(line1, MAX_LINE_LENGTH, file1) != NULL || fgets(line2, MAX_LINE_LENGTH, file2) != NULL) {
+        line_number++;
+
+        
+        if (strcmp(line1, line2) != 0) {
+            differences_found = 1;
+
+            
+            if (line1[0] != '\0') {
+                printf("Difference at line %d: %s (File 1)\n", line_number, line1);
+            }
+            if (line2[0] != '\0') {
+                printf("Difference at line %d: %s (File 2)\n", line_number, line2);
+            }
+        }
+    }
+
+    
+    fclose(file1);
+    fclose(file2);
+
+    if (!differences_found) {
+        printf("Files are identical.\n");
+    }
+
+    return 0;
+}
