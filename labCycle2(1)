@@ -1,0 +1,87 @@
+#include <stdio.h>
+
+
+void bubbleSort(int AT[], int BT[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (AT[j] > AT[j + 1]) {
+                // Swap arrival time
+                int temp = AT[j];
+                AT[j] = AT[j + 1];
+                AT[j + 1] = temp;
+
+                // Swap burst time
+                temp = BT[j];
+                BT[j] = BT[j + 1];
+                BT[j + 1] = temp;
+            }
+        }
+    }
+}
+
+
+float calculateAvgWaitingTime(int WT[], int n) {
+    float avgWT = 0;
+    for (int i = 0; i < n; i++) {
+        avgWT += WT[i];
+    }
+    return avgWT / n;
+}
+
+
+float calculateAvgTurnaroundTime(int TAT[], int n) {
+    float avgTAT = 0;
+    for (int i = 0; i < n; i++) {
+        avgTAT += TAT[i];
+    }
+    return avgTAT / n;
+}
+
+int main() {
+    int n;
+    printf("Enter the number of processes: ");
+    scanf("%d", &n);
+
+    int AT[n], BT[n], CT[n], TAT[n], WT[n];
+
+    printf("Enter arrival time for each process: ");
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &AT[i]);
+    }
+
+    printf("Enter burst time for each process: ");
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &BT[i]);
+    }
+
+    
+    bubbleSort(AT, BT, n);
+
+    
+    CT[0] = AT[0] + BT[0];
+    for (int i = 1; i < n; i++) {
+        CT[i] = CT[i - 1] + BT[i];
+    }
+
+    
+    for (int i = 0; i < n; i++) {
+        TAT[i] = CT[i] - AT[i];
+        WT[i] = TAT[i] - BT[i];
+    }
+
+    
+    printf("\nProcess\t Arrival Time\t Burst Time\t Completion Time\t Turnaround Time\t Waiting Time\n");
+
+    
+    for (int i = 0; i < n; i++) {
+        printf("%d\t\t %d\t\t %d\t\t %d\t\t\t %d\t\t\t %d\n", i + 1, AT[i], BT[i], CT[i], TAT[i], WT[i]);
+    }
+
+    
+    float avgWT = calculateAvgWaitingTime(WT, n);
+    float avgTAT = calculateAvgTurnaroundTime(TAT, n);
+    printf("\nAverage Waiting Time: %.2f\n", avgWT);
+    printf("Average Turnaround Time: %.2f\n", avgTAT);
+
+    return 0;
+}
