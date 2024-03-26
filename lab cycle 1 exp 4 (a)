@@ -1,0 +1,23 @@
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/wait.h>
+
+int main(){
+    int es=0,os=0;
+    pid_t pid;
+    pid=fork();
+        if(pid<0)
+            printf("fork failed\n");
+        else if(pid==0){
+            for(int i=2;i<=1000;i+=2){
+                es+=i;
+            }
+        printf("Sum of even numbers: %d\n",es);
+        }
+    else{
+        for(int i=1;i<=1000;i+=2){
+            os+=i;
+        }
+        printf("Sum of odd numbers: %d\n",os);
+        wait(NULL);
+    }
