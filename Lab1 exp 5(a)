@@ -1,0 +1,39 @@
+#include <stdio.h>
+
+int main() {
+    FILE *fptr1, *fptr2;
+    char f1[100], f2[100], c;
+
+    printf("Enter the filename for reading: ");
+    scanf("%s", f1);
+
+    fptr1 = fopen(f1, "r");
+    if (fptr1 == NULL) {
+        printf("Can't open the file %s\n", f1);
+        
+    }
+
+    printf("Enter the filename for writing: ");
+    scanf("%s", f2);
+
+    fptr2 = fopen(f2, "w");
+    if (fptr2 == NULL) {
+        printf("Can't open the file %s\n", f2);
+        fclose(fptr1); 
+        
+    }
+
+    while ((c = fgetc(fptr1)) != EOF) {
+        fputc(c, fptr2);
+    }
+
+    printf("Successfully copied contents from %s to %s\n", f1, f2);
+    if(ferror(fptr1)){
+        printf("Error reading the file\n");
+    }
+    if(ferror(fptr2)){
+        printf("Error writing the file\n");
+    }
+    fclose(fptr1);
+    fclose(fptr2);
+}
