@@ -1,0 +1,67 @@
+#include <stdio.h>
+
+int main ()
+{
+    int n;
+    printf("Enter the number of processes: ");
+    scanf("%d", &n);
+    int AT[n],BT[n],CT[n];
+    printf("Enter arrival time for each process: ");
+    for(int i=0;i<n;i++)
+    	 scanf ("%d",&AT[i]);
+    printf("Enter burst time for each process: ");
+    for(int i=0;i<n;i++)
+    	scanf("%d",&BT[i]);
+    for(int i=0;i<n-1;i++)
+	{
+	  for(int j=0;j<n-i-1;j++)
+		{
+		  if(AT[j]>AT[j+1])
+			{
+			  int temp=AT[j];
+			  AT[j]=AT[j+1];
+			  AT[j+1]=temp;
+			  temp=BT[j];
+			  BT[j]=BT[j+1];
+			  BT[j+1]=temp;
+			}
+		}
+	}
+  CT[0]=BT[0];
+  for (int i=1;i<n;i++)
+	  CT[i]=CT[i-1]+BT[i];
+	printf("\nFCFS Scheduling:\n");
+  for (int i=0;i<n;i++)
+	  printf("| %d ", i + 1);
+  printf ("|\n");
+  for (int i=0;i<n;i++)
+	  printf("   %d",CT[i]);
+  printf("\n");
+     
+  for(int i=0;i<n-1;i++)
+	{
+	  for(int j=0;j<n-i-1;j++)
+		{
+		  if(BT[j]>BT[j+1])
+			{
+			  int temp = AT[j];
+			  AT[j]=AT[j+1];
+			  AT[j+1]=temp;
+			  temp=BT[j];
+			  BT[j]=BT[j+1];
+			  BT[j+1]=temp;
+			}
+		}
+	}
+
+  CT[0]=BT[0];
+  for(int i=1;i<n;i++)
+	  CT[i]=CT[i-1]+BT[i];
+	printf("\nSJF Scheduling:\n");
+	for(int i=0;i<n;i++)
+	  printf("| %d ",i+1);
+	 printf("|\n");
+	 for(int i=0;i<n;i++)
+	  printf("   %d",CT[i]);
+	 printf("\n");
+}
