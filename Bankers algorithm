@@ -53,14 +53,14 @@ int main()
                             break;
                         }
                     }
-                    if(flag=0){
+                    if(flag==0){
                         safe[sq++]=i;
-                        }
+                        
                             for(y=0;y<m;y++){
-                                work[y]+=alloc[i][j];
-                                finish[i];
-                            }
-                    
+                                work[y]+=alloc[i][y];}
+                        finish[i]=1;
+                            
+                }
             }
         }
     }
